@@ -39,6 +39,7 @@ jobs:
         run: |
           pip install checkov
 
+
       - name: Install Terrascan
         run: |
           TERRASCAN_VERSION=$(curl -s https://api.github.com/repos/tenable/terrascan/releases/latest | grep tag_name | cut -d '"' -f 4)
