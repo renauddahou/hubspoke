@@ -1,0 +1,62 @@
+name: Terraform Static Analysis
+
+on:
+  push:
+    paths:
+      - '**.tf'
+  pull_request:
+    paths:
+      - '**.tf'
+
+jobs:
+  terraform-lint:
+    name: Static Code Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.2
+
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+
+      - name: Install tfsec
+        run: |
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+
+      - name: Install Checkov
+        run: |
+          pip install checkov
+
+      - name: Install Terrascan
+        run: |
+          curl -s https://runterrascan.io/install.sh | bash
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Run TFLint
+        run: tflint --recursive
+
+      - name: Run tfsec
+        run: tfsec .
+
+      - name: Run Checkov
+        run: checkov -d .
+
+      - name: Run Terrascan
+        run: terrascan scan -t terraform -d .
