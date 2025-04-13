@@ -1,12 +1,6 @@
 name: Terraform Static Analysis
 
-on:
-  push:
-    paths:
-      - '**.tf'
-  pull_request:
-    paths:
-      - '**.tf'
+on: [push]
 
 jobs:
   terraform-lint:
@@ -38,7 +32,6 @@ jobs:
       - name: Install Checkov
         run: |
           pip install checkov
-
 
       - name: Install Terrascan
         run: |
