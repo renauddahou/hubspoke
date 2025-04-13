@@ -19,7 +19,7 @@ resource "aws_security_group" "nsg_vpc_hub" {
 
 
   ingress {
-    cidr_blocks = ["${var.hub_vpc_cidr_block}"]
+    cidr_blocks = [var.hub_vpc_cidr_block]
     from_port   = -1
     protocol    = "icmp"
     to_port     = -1

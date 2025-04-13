@@ -4,14 +4,14 @@ resource "aws_security_group" "nsg_hub_public_alb" {
   }
   description = "allow_http-https-traffic"
   egress {
-    cidr_blocks = ["${var.hub_vpc_cidr_block}"]
+    cidr_blocks = [var.hub_vpc_cidr_block]
     from_port   = 443
     protocol    = "tcp"
     to_port     = 443
   }
 
   egress {
-    cidr_blocks = ["${var.hub_vpc_cidr_block}"]
+    cidr_blocks = [var.hub_vpc_cidr_block]
     from_port   = 80
     protocol    = "tcp"
     to_port     = 80

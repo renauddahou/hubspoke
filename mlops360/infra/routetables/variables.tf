@@ -11,10 +11,6 @@ variable "spoke_prod_vpc_id" {
 }
 
 
-variable "hub_vpc_cidr_block" {
-  type = string
-}
-
 variable "spoke_dev_vpc_cidr_block" {
   type = string
 }
