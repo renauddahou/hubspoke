@@ -98,7 +98,6 @@ module "routetables" {
   hub_vpc_id                = module.vpc.hub_vpc_id
   spoke_dev_vpc_id          = module.vpc.spoke_dev_vpc_id
   spoke_prod_vpc_id         = module.vpc.spoke_prod_vpc_id
-  hub_vpc_cidr_block        = module.vpc.hub_vpc_cidr_block
   spoke_dev_vpc_cidr_block  = module.vpc.spoke_dev_vpc_cidr_block
   spoke_prod_vpc_cidr_block = module.vpc.spoke_prod_vpc_cidr_block
 
