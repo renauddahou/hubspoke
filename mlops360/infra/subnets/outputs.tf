@@ -68,22 +68,21 @@ output "sn_hub_private_siem_b_id" {
 }
 
 output "sn_spk_dev_bdd_az_a_id" {
-  value = aws_subnet.sn_spk_dev_bdd_az_a.id
+  value = tolist(data.aws_db_subnet_group.db_dev.subnet_ids)[0]
 }
 
 output "sn_spk_dev_bdd_az_b_id" {
-  value = aws_subnet.sn_spk_dev_bdd_az_b.id
+  value = tolist(data.aws_db_subnet_group.db_dev.subnet_ids)[1]
 }
 
 
 output "sn_spk_prod_bdd_az_a_id" {
-  value = aws_subnet.sn_spk_prod_bdd_az_a.id
+  value = tolist(data.aws_db_subnet_group.db_prod.subnet_ids)[0]
 }
 
 output "sn_spk_prod_bdd_az_b_id" {
-  value = aws_subnet.sn_spk_prod_bdd_az_b.id
+  value = tolist(data.aws_db_subnet_group.db_prod.subnet_ids)[1]
 }
-
 
 
 output "sn_spk_dev_nlb_az_a_id" {

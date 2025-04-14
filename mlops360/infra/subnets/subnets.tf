@@ -11,12 +11,18 @@ data "aws_db_instance" "db_prod" {
   db_instance_identifier = var.aws_db_instance_db_prod_id
 }
 
+data "aws_db_subnet_group" "db_dev" {
+  name  = data.aws_db_instance.db_dev.db_subnet_group
+}
+
+data "aws_db_subnet_group" "db_prod" {
+  name  = data.aws_db_instance.db_prod.db_subnet_group
+}
+
 
 locals {
   availability_zone_prod = try(data.aws_db_instance.db_prod.availability_zone, var.availability_zones[0])
   availability_zone_dev  = try(data.aws_db_instance.db_dev.availability_zone, var.availability_zones[0])
-  # availability_zone_prod = try(var.availability_zones[0])
-  # availability_zone_dev  = try(var.availability_zones[0])
 
   availability_zone_bprod = length(var.availability_zones) > 1 ? (
     var.availability_zones[0] == local.availability_zone_prod ?
@@ -233,35 +239,6 @@ resource "aws_subnet" "sn_hub_private_siem_b" {
 # SPOKE DEV                                 #
 #############################################
 
-# Subnets de base de donnée
-resource "aws_subnet" "sn_spk_dev_bdd_az_a" {
-  tags = {
-    Environment = "DEV"
-    Infra       = "SPOKE"
-    Name        = "sn-spk-dev-bdd-az-a"
-  }
-  availability_zone_id                = var.availability_zones[0]
-  cidr_block                          = cidrsubnet(var.spoke_dev_vpc_cidr_block, 4, 1)
-  private_dns_hostname_type_on_launch = "ip-name"
-  vpc_id                              = var.spoke_dev_vpc_id
-}
-
-
-
-
-resource "aws_subnet" "sn_spk_dev_bdd_az_b" {
-  tags = {
-    Environment = "DEV"
-    Infra       = "SPOKE"
-    Name        = "sn-spk-dev-bdd-az-b"
-  }
-  availability_zone_id                = var.availability_zones[1]
-  cidr_block                          = cidrsubnet(var.spoke_dev_vpc_cidr_block, 4, 2)
-  private_dns_hostname_type_on_launch = "ip-name"
-  vpc_id                              = var.spoke_dev_vpc_id
-}
-
-
 
 # Subnet de networkork load balancer
 resource "aws_subnet" "sn_spk_dev_nlb_az_a" {
@@ -406,37 +383,6 @@ resource "aws_subnet" "sn_spk_dev_devops_b" {
 #############################################
 # SPOKE PROD                                #
 #############################################
-
-
-resource "aws_subnet" "sn_spk_prod_bdd_az_a" {
-  tags = {
-    Environment = "PROD"
-    Infra       = "SPOKE"
-    Name        = "sn-spk-prod-bdd-az-a"
-  }
-  availability_zone_id                = var.availability_zones[0]
-  cidr_block                          = cidrsubnet(var.spoke_prod_vpc_cidr_block, 4, 1)
-  private_dns_hostname_type_on_launch = "ip-name"
-  vpc_id                              = var.spoke_prod_vpc_id
-}
-
-
-
-resource "aws_subnet" "sn_spk_prod_bdd_az_b" {
-  tags = {
-    Environment = "PROD"
-    Infra       = "SPOKE"
-    Name        = "sn-spk-prod-bdd-az-b"
-  }
-  availability_zone_id                = var.availability_zones[1]
-  cidr_block                          = cidrsubnet(var.spoke_prod_vpc_cidr_block, 4, 2)
-  private_dns_hostname_type_on_launch = "ip-name"
-  vpc_id                              = var.spoke_prod_vpc_id
-}
-
-
-
-
 resource "aws_subnet" "sn_spk_prod_nlb_az_a" {
   tags = {
     Environment = "PROD"

@@ -1,20 +1,9 @@
-output "bdd_subnet_group_id" {
-  value = {
-    "dev_bdd_subnet_az_a"  = aws_subnet.sn_spk_dev_bdd_az_a.id,
-    "dev_bdd_subnet_az_b"  = aws_subnet.sn_spk_dev_bdd_az_b.id,
-    "prod_bdd_subnet_az_a" = aws_subnet.sn_spk_prod_bdd_az_a.id,
-    "prod_bdd_subnet_az_b" = aws_subnet.sn_spk_prod_bdd_az_b.id
-  }
-}
-
-
-
 # group de subnet à associer au table de routage
 
 
 output "sn_pub_fw_group_id" {
   value = {
-    "sn_hub_public_alb_fw_a" = aws_subnet.sn_hub_public_alb_fw_a.id,
+    "sn_hub_public_alb_fw_a" = aws_subnet.sn_hub_public_alb_fw_a.id
     "sn_hub_public_alb_fw_b" = aws_subnet.sn_hub_public_alb_fw_b.id
   }
 }
@@ -23,7 +12,7 @@ output "sn_pub_fw_group_id" {
 
 output "sn_priv_vpn_group_id" {
   value = {
-    "hub_vpn_subnet_az_a" = aws_subnet.sn_hub_private_vpn_a.id,
+    "hub_vpn_subnet_az_a" = aws_subnet.sn_hub_private_vpn_a.id
     "hub_vpn_subnet_az_b" = aws_subnet.sn_hub_private_vpn_b.id
   }
 }
@@ -31,7 +20,7 @@ output "sn_priv_vpn_group_id" {
 
 output "sn_priv_pxy_group_id" {
   value = {
-    "sn_hub_private_pxy_a" = aws_subnet.sn_hub_private_pxy_a.id,
+    "sn_hub_private_pxy_a" = aws_subnet.sn_hub_private_pxy_a.id
     "sn_hub_private_pxy_b" = aws_subnet.sn_hub_private_pxy_b.id
   }
 }
@@ -42,8 +31,8 @@ output "sn_priv_pxy_group_id" {
 
 output "sn_spk_dev_group_id" {
   value = {
-    "sn_spk_dev_bdd_az_a" = aws_subnet.sn_spk_dev_bdd_az_a.id,
-    "sn_spk_dev_bdd_az_b" = aws_subnet.sn_spk_dev_bdd_az_b.id
+    "sn_spk_dev_bdd_az_a" = tolist(data.aws_db_subnet_group.db_dev.subnet_ids)[0]
+    "sn_spk_dev_bdd_az_b" = tolist(data.aws_db_subnet_group.db_dev.subnet_ids)[1]
     "sn_spk_dev_nlb_az_a" = aws_subnet.sn_spk_dev_nlb_az_a.id
     "sn_spk_dev_nlb_az_b" = aws_subnet.sn_spk_dev_nlb_az_b.id
     "sn_spk_dev_api_a"    = aws_subnet.sn_spk_dev_api_a.id
@@ -61,8 +50,8 @@ output "sn_spk_dev_group_id" {
 
 output "sn_spk_prod_group_id" {
   value = {
-    "sn_spk_prod_bdd_az_a" = aws_subnet.sn_spk_prod_bdd_az_a.id,
-    "sn_spk_prod_bdd_az_b" = aws_subnet.sn_spk_prod_bdd_az_b.id
+    "sn_spk_prod_bdd_az_a" = tolist(data.aws_db_subnet_group.db_prod.subnet_ids)[0]
+    "sn_spk_prod_bdd_az_b" = tolist(data.aws_db_subnet_group.db_prod.subnet_ids)[1]
     "sn_spk_prod_nlb_az_a" = aws_subnet.sn_spk_prod_nlb_az_a.id
     "sn_spk_prod_nlb_az_b" = aws_subnet.sn_spk_prod_nlb_az_b.id
     "sn_spk_prod_api_a"    = aws_subnet.sn_spk_prod_api_a.id

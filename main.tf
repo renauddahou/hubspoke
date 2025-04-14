@@ -8,6 +8,24 @@ module "vpc" {
   vpc_spoke_prod_cidr = var.vpc_spoke_prod_cidr
 }
 
+module "rds" {
+  source                     = "./mlops360/infra/rds"
+  spoke_dev_vpc_id          = module.vpc.spoke_dev_vpc_id
+  spoke_prod_vpc_id         = module.vpc.spoke_prod_vpc_id
+  spoke_dev_vpc_cidr_block  = module.vpc.spoke_dev_vpc_cidr_block
+  spoke_prod_vpc_cidr_block = module.vpc.spoke_prod_vpc_cidr_block
+  nsg_vpc_spk_dev_id         = module.securitygroup.nsg_vpc_spk_dev_id
+  nsg_vpc_spk_prod_id        = module.securitygroup.nsg_vpc_spk_prd_id
+  db_dev_username            = var.db_dev_username
+  db_prod_username           = var.db_prod_username
+  spk_dev_secretsmanager_id  = module.secretsmanager.spk_dev_secretsmanager_id
+  spk_prod_secretsmanager_id = module.secretsmanager.spk_prod_secretsmanager_id
+  spk_dev_secrets_read_policy_arn =  module.secretsmanager.spk_dev_secrets_read_policy_arn
+  spk_prod_secrets_read_policy_arn = module.secretsmanager.spk_prod_secrets_read_policy_arn
+  availability_zones         = data.aws_availability_zones.available_zones.zone_ids
+
+}
+
 
 module "subnets" {
   source                    = "./mlops360/infra/subnets"
@@ -17,10 +35,8 @@ module "subnets" {
   hub_vpc_cidr_block        = module.vpc.hub_vpc_cidr_block
   spoke_dev_vpc_cidr_block  = module.vpc.spoke_dev_vpc_cidr_block
   spoke_prod_vpc_cidr_block = module.vpc.spoke_prod_vpc_cidr_block
-  # aws_db_instance_db_dev_id=module.rds.aws_db_instance_db_dev_id
-  # aws_db_instance_db_prod_id=module.rds.aws_db_instance_db_prod_id
-  aws_db_instance_db_dev_id  = ""
-  aws_db_instance_db_prod_id = ""
+  aws_db_instance_db_dev_id=module.rds.aws_db_instance_db_dev_id
+  aws_db_instance_db_prod_id=module.rds.aws_db_instance_db_prod_id
   availability_zones         = data.aws_availability_zones.available_zones.zone_ids
 
 
@@ -48,17 +64,6 @@ module "secretsmanager" {
 }
 
 
-module "rds" {
-  source                     = "./mlops360/infra/rds"
-  subnet_ids                 = module.subnets.bdd_subnet_group_id
-  nsg_vpc_spk_dev_id         = module.securitygroup.nsg_vpc_spk_dev_id
-  nsg_vpc_spk_prod_id        = module.securitygroup.nsg_vpc_spk_prd_id
-  db_dev_username            = var.db_dev_username
-  db_prod_username           = var.db_prod_username
-  spk_dev_secretsmanager_id  = module.secretsmanager.spk_dev_secretsmanager_id
-  spk_prod_secretsmanager_id = module.secretsmanager.spk_prod_secretsmanager_id
-
-}
 
 
 

@@ -18,7 +18,7 @@ resource "aws_iam_policy" "spk_dev_rds_connection_policy" {
         Action = [
           "secretsmanager:GetSecretValue", # Permet de récupérer les secrets pour DEV
         ]
-        Resource = var.spk_dev_secretsmanager_id # ID du secret pour DEV
+        Resource = var.spk_dev_secrets_read_policy_arn # ARN  du secret pour DEV
       }
     ]
   })
@@ -45,7 +45,7 @@ resource "aws_iam_policy" "spk_prod_rds_connection_policy" {
         Action = [
           "secretsmanager:GetSecretValue", # Permet de récupérer les secrets pour PROD
         ]
-        Resource = var.spk_prod_secretsmanager_id # ID du secret pour PROD
+        Resource = var.spk_prod_secrets_read_policy_arn # ARN du secret pour PROD
       }
     ]
   })

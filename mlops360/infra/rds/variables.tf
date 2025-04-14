@@ -1,3 +1,11 @@
+variable "spoke_dev_vpc_id" {
+  type = string
+}
+
+variable "spoke_prod_vpc_id" {
+  type = string
+}
+
 variable "db_dev_username" {
   description = "utilisateur db spk dev"
   type        = string
@@ -20,15 +28,6 @@ variable "nsg_vpc_spk_prod_id" {
 }
 
 
-variable "subnet_ids" {
-  description = "Map of subnet IDs"
-  type        = map(string)
-}
-
-
-
-
-
 variable "spk_dev_secretsmanager_id" {
   description = "Map des secrets IDs depuis secrets_creation"
   type        = map(string)
@@ -37,4 +36,27 @@ variable "spk_dev_secretsmanager_id" {
 variable "spk_prod_secretsmanager_id" {
   description = "Map des secrets IDs depuis secrets_creation"
   type        = map(string)
+}
+
+
+variable "spk_dev_secrets_read_policy_arn" {
+  description = "String des secrets ARN depuis secrets_creation"
+  type        = string
+}
+
+variable "spk_prod_secrets_read_policy_arn" {
+  description = "String des secrets ARN depuis secrets_creation"
+  type        = string
+}
+
+variable "availability_zones" {
+  type = list(string)
+}
+
+variable "spoke_dev_vpc_cidr_block" {
+  type = string
+}
+
+variable "spoke_prod_vpc_cidr_block" {
+  type = string
 }

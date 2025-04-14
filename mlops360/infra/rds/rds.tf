@@ -1,4 +1,61 @@
 
+# Subnets de base de donnée
+resource "aws_subnet" "sn_spk_dev_bdd_az_a" {
+  tags = {
+    Environment = "DEV"
+    Infra       = "SPOKE"
+    Name        = "sn-spk-dev-bdd-az-a"
+  }
+  availability_zone_id                = var.availability_zones[0]
+  cidr_block                          = cidrsubnet(var.spoke_dev_vpc_cidr_block, 4, 1)
+  private_dns_hostname_type_on_launch = "ip-name"
+  vpc_id                              = var.spoke_dev_vpc_id
+}
+
+
+
+
+resource "aws_subnet" "sn_spk_dev_bdd_az_b" {
+  tags = {
+    Environment = "DEV"
+    Infra       = "SPOKE"
+    Name        = "sn-spk-dev-bdd-az-b"
+  }
+  availability_zone_id                = var.availability_zones[1]
+  cidr_block                          = cidrsubnet(var.spoke_dev_vpc_cidr_block, 4, 2)
+  private_dns_hostname_type_on_launch = "ip-name"
+  vpc_id                              = var.spoke_dev_vpc_id
+}
+
+
+resource "aws_subnet" "sn_spk_prod_bdd_az_a" {
+  tags = {
+    Environment = "PROD"
+    Infra       = "SPOKE"
+    Name        = "sn-spk-prod-bdd-az-a"
+  }
+  availability_zone_id                = var.availability_zones[0]
+  cidr_block                          = cidrsubnet(var.spoke_prod_vpc_cidr_block, 4, 1)
+  private_dns_hostname_type_on_launch = "ip-name"
+  vpc_id                              = var.spoke_prod_vpc_id
+}
+
+
+
+resource "aws_subnet" "sn_spk_prod_bdd_az_b" {
+  tags = {
+    Environment = "PROD"
+    Infra       = "SPOKE"
+    Name        = "sn-spk-prod-bdd-az-b"
+  }
+  availability_zone_id                = var.availability_zones[1]
+  cidr_block                          = cidrsubnet(var.spoke_prod_vpc_cidr_block, 4, 2)
+  private_dns_hostname_type_on_launch = "ip-name"
+  vpc_id                              = var.spoke_prod_vpc_id
+}
+
+
+
 data "aws_secretsmanager_secret_version" "spk_dev_secrets_version" {
   for_each  = var.spk_dev_secretsmanager_id
   secret_id = each.value
@@ -36,8 +93,8 @@ resource "aws_db_instance" "db_dev" {
 resource "aws_db_subnet_group" "db_dev" {
   name = "db_dev-subnet-group"
   subnet_ids = [
-    var.subnet_ids["dev_bdd_subnet_az_a"], # Sous-réseau dans la première AZ
-    var.subnet_ids["dev_bdd_subnet_az_b"]  # Sous-réseau dans la deuxième AZ
+    aws_subnet.sn_spk_dev_bdd_az_a.id, # Sous-réseau dans la première AZ
+    aws_subnet.sn_spk_dev_bdd_az_b.id  # Sous-réseau dans la deuxième AZ
   ]
 }
 
@@ -67,8 +124,8 @@ resource "aws_db_instance" "db_prod" {
 resource "aws_db_subnet_group" "db_prod" {
   name = "db_prod-subnet-group"
   subnet_ids = [
-    var.subnet_ids["prod_bdd_subnet_az_a"], # Sous-réseau dans la première AZ
-    var.subnet_ids["prod_bdd_subnet_az_b"]  # Sous-réseau dans la deuxième AZ
+    aws_subnet.sn_spk_prod_bdd_az_a.id, # Sous-réseau dans la première AZ
+    aws_subnet.sn_spk_prod_bdd_az_b.id  # Sous-réseau dans la deuxième AZ
   ]
 }
 
