@@ -61,5 +61,6 @@ jobs:
         continue-on-error: true
 
       - name: Run Terrascan
-        run: terrascan scan -t terraform -d .
+        run: terrascan scan -d .
         continue-on-error: true
+
