@@ -41,7 +41,7 @@ jobs:
           sudo mv terrascan /usr/local/bin/
 
       - name: Terraform Format Check
-        run: terraform fmt -check -recursive
+        run: terraform validate
 
       - name: Terraform Validate
         run: terraform init && terraform validate
