@@ -39,16 +39,6 @@ variable "spk_prod_secretsmanager_id" {
 }
 
 
-variable "spk_dev_secrets_read_policy_arn" {
-  description = "String des secrets ARN depuis secrets_creation"
-  type        = string
-}
-
-variable "spk_prod_secrets_read_policy_arn" {
-  description = "String des secrets ARN depuis secrets_creation"
-  type        = string
-}
-
 variable "availability_zones" {
   type = list(string)
 }
@@ -59,4 +49,14 @@ variable "spoke_dev_vpc_cidr_block" {
 
 variable "spoke_prod_vpc_cidr_block" {
   type = string
+}
+
+variable "spk_dev_secrets_read_policy_arn" {
+  type        = map(string)
+  description = "Map des ARNs des policies dev"
+}
+
+variable "spk_prod_secrets_read_policy_arn" {
+  type        = map(string)
+  description = "Map des ARNs des policies prod"
 }

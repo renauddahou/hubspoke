@@ -15,11 +15,16 @@ output "spk_prod_secretsmanager_id" {
 
 
 output "spk_dev_secrets_read_policy_arn" {
-  value       = aws_iam_policy.spk_dev_secrets_read_policy[*].arn
-  description = "The ARN of the IAM policy to allow read access to the dev secrets"
+  description = "Map des ARN des IAM policies dev"
+  value = {
+    for k, policy in aws_iam_policy.spk_dev_secrets_read_policy : k => policy.arn
+  }
 }
 
+
 output "spk_prod_secrets_read_policy_arn" {
-  value       = aws_iam_policy.spk_prod_secrets_read_policy[*].arn
-  description = "The ARN of the IAM policy to allow read access to the prod secrets"
+  description = "Map des ARN des IAM policies prod"
+  value = {
+    for k, policy in aws_iam_policy.spk_prod_secrets_read_policy : k => policy.arn
+  }
 }

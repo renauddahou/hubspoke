@@ -12,11 +12,11 @@ data "aws_db_instance" "db_prod" {
 }
 
 data "aws_db_subnet_group" "db_dev" {
-  name  = data.aws_db_instance.db_dev.db_subnet_group
+  name = data.aws_db_instance.db_dev.db_subnet_group
 }
 
 data "aws_db_subnet_group" "db_prod" {
-  name  = data.aws_db_instance.db_prod.db_subnet_group
+  name = data.aws_db_instance.db_prod.db_subnet_group
 }
 
 
