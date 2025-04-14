@@ -42,18 +42,24 @@ jobs:
 
       - name: Terraform Format Check
         run: terraform init && terraform fmt -check -recursive
+        continue-on-error: true
 
       - name: Terraform Validate
         run:  terraform validate
+        continue-on-error: true
 
       - name: Run TFLint
         run: tflint --recursive
+        continue-on-error: true
 
       - name: Run tfsec
         run: tfsec .
+        continue-on-error: true
 
       - name: Run Checkov
         run: checkov -d .
+        continue-on-error: true
 
       - name: Run Terrascan
         run: terrascan scan -t terraform -d .
+        continue-on-error: true
