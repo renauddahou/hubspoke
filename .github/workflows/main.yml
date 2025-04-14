@@ -41,10 +41,10 @@ jobs:
           sudo mv terrascan /usr/local/bin/
 
       - name: Terraform Format Check
-        run: terraform validate
+        run: terraform init && terraform fmt -check -recursive
 
       - name: Terraform Validate
-        run: terraform init && terraform validate
+        run:  terraform validate
 
       - name: Run TFLint
         run: tflint --recursive
