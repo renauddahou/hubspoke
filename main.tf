@@ -35,8 +35,8 @@ module "subnets" {
   hub_vpc_cidr_block        = module.vpc.hub_vpc_cidr_block
   spoke_dev_vpc_cidr_block  = module.vpc.spoke_dev_vpc_cidr_block
   spoke_prod_vpc_cidr_block = module.vpc.spoke_prod_vpc_cidr_block
-  aws_db_instance_db_dev_id=module.rds.aws_db_instance_db_dev_id
-  aws_db_instance_db_prod_id=module.rds.aws_db_instance_db_prod_id
+  aws_db_instance_db_dev_id = module.rds.aws_db_instance_db_dev_id
+  aws_db_instance_db_prod_id = module.rds.aws_db_instance_db_prod_id
   availability_zones         = data.aws_availability_zones.available_zones.zone_ids
 
 
